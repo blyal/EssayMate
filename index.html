@@ -14,6 +14,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.js"></script>
 		<script src="app.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 	</head>
 
 	<body class="is-preload" ng-app="ieapp" ng-controller="componentController">
@@ -63,44 +64,6 @@
 	<!-- Container -->
 		<div class="Container" ng-show="hideShowContainer">
 
-
-		<!-- Component to show / Introduction section
-			<div id="introductionSection" class="Component" ng-show="showComponent">
-				
-				<h1 ng-click="collapseIntro()" class="sectionTitle">Introduction</h1>
-
-				<img src="./comp-close-icon.png" class="deleteButton" alt="Delete" title="Delete Intro" height="20" width="20">
-					
-				<div ng-show="collapseOpenIntro">
-
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-						
-					<hr>
-					<div class="module">
-						<h2>Module 1: Beginning Sentence</h2> 
-
-						<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					   
-
-						<h3>For example:</h3>
-
-						<div class="exampleList">
-							<ul>
-								<li><a>E.g. 1</a></li>
-								<li><a>E.g. 2</a></li>
-								<li><a>E.g. 3</a></li>
-							</ul>
-							<blockquote>"This is a quote element for the example"</blockquote>
-						</div>
-				
-						<h3>Try it yourself</h3>
-						<p id="encouragingMessage">Remember, it doesn't have to be perfect.</p>
-						<textarea class="textarea"></textarea>
-					</div>
-
-				</div>
-
-			</div> -->
 				
 			<div ng-repeat="section in sections"> <!--ng-repeats the sections which the user adds to the essay-->
 				<div id="section{{$index + 1}}"  ng-init="notCollapsed=true" ng-class="notCollapsed ? 'Component' : 'Component-collapse'">		
@@ -109,7 +72,7 @@
 						<p id="sectionDescription">{{section.sectionDesc}}</p>	
 						<hr>
 						<div class="modulecontainer">
-							<ul>	
+							<ul class="module-list">	
 								<li ng-repeat="module in section.modules" class="module-bar">
 										<button class="module-button" ng-click="changeindex($parent.$index, $index)">{{module.moduleHdr}}</button>	
 								</li>
@@ -118,160 +81,28 @@
 								<p>{{section.modules[dynamicModuleList[$index]].moduleDesc}}</p>
 					   
 							<!--Example Div-->
-								<h4>Examples</h4>
 								<div class="exampleList">
 									<ul>
-										<li ng-repeat="example in section.modules[dynamicModuleList[$index]].examples">Example {{$index+1}}</li>
+										<li ng-repeat="example in section.modules[dynamicModuleList[$index]].examples">
+												<button class="exampleButton" ng-click="changeindex2($parent.$index, $index)">Example {{$index+1}}</button>
+										</li>
 									</ul>
-								<blockquote>"This is a quote element for the example"</blockquote>
+								<blockquote>{{section.modules[dynamicModuleList[$index]].examples[dynamicExampleList[$index]]}}</blockquote>
 								</div>
 				
 								<h3>Try it yourself</h3>
-								<textarea class="textarea"></textarea>
+								<textarea class="textarea" ng-model="userText[$index]"></textarea>
 						</div>
 						<p id="encouragingMessage">{{section.sectionEncouragement}}</p>
 						
 				</div>
 			</div>
-		
-			<!-- <div id="pointSection" class="Component" ng-show="showPointComponent">
-				<h1>Point</h1> 
+			<button class="exportButton" ng-click="genPDF()" ng-show="showExportPdf">Export draft to PDF</button>
 
-				<img src="./comp-close-icon.png" class="deleteButton" alt="Delete" height="20" width="20">
-						
-				<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-						
-				<hr>
 
-				<div class="module">
-					<h2>Module 1: Explain</h2> 
-			
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					   
-				
-					<h3>For example:</h3>
-					<div class="exampleList">
-						<ul>
-							<li><a>E.g. 1</a></li>
-							<li><a>E.g. 2</a></li>
-							<li><a>E.g. 3</a></li>
-						</ul>
-						<blockquote>"This is a quote element for the example"</blockquote>
-					</div>
-				
-					<h3>Try it yourself</h3>
-					<p id="encouragingMessage">Remember, it doesn't have to be perfect.</p>
-					<textarea class="textarea"></textarea>
-				</div>
-
+			<div id="pdfTemplate" ng-show="showPDFTemplate">
+				<div id="pdfText"></div>
 			</div>
-
-
-			<div id="counterpointSection" class="Component" ng-show="showCounterpointComponent">
-				<h1>Counterpoint</h1> 
-						
-				<img src="./comp-close-icon.png" class="deleteButton" alt="Delete" height="20" width="20">
-
-				<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-						
-				<hr>
-
-				<div class="module">
-
-					<h2>Module 1: Explain</h2> 
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					   
-				
-					<h3>For example:</h3>
-					<div class="exampleList">
-						<ul>
-							<li><a>E.g. 1</a></li>
-							<li><a>E.g. 2</a></li>
-							<li><a>E.g. 3</a></li>
-						</ul>
-						<blockquote>"This is a quote element for the example"</blockquote>
-					</div>
-				
-					<h3>Try it yourself</h3>
-					<p id="encouragingMessage">Remember, it doesn't have to be perfect.</p>
-					<textarea class="textarea"></textarea>
-				</div>
-			</div> -->
-					
-
-			<!-- <div id="evaluationSection" class="Component" ng-show="showEvaluationComponent">
-			
-				<h1 ng-click="collapseEvaluation()" class="sectionTitle">Evaluation</h1> 
-						
-				<img src="./comp-close-icon.png" class="deleteButton" alt="Delete" title="Delete Evaluation" height="20" width="20">
-
-				<div ng-show="collapseOpenEvaluation">
-
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-						
-					<hr>
-					
-					<div class="module">
-			
-						<h2>Module 1: Explain</h2> 
-			
-						<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					   
-
-							<h3>For example:</h3>
-								<div class="exampleList">
-									<ul>
-										<li><a>E.g. 1</a></li>
-										<li><a>E.g. 2</a></li>
-										<li><a>E.g. 3</a></li>
-									</ul>
-									<blockquote>"This is a quote element for the example"</blockquote>
-								</div>
-				
-								<h3>Try it yourself</h3>
-								<p id="encouragingMessage">Remember, it doesn't have to be perfect.</p>
-								<textarea class="textarea"></textarea>
-					</div>
-				
-				</div>
-
-			</div>
-
-			<div id="conclusionSection" class="Component" ng-show="showConclusionComponent">
-			
-				<h1 ng-click="collapseConclusion()" class="sectionTitle">Conclusion</h1> 
-
-				<img src="./comp-close-icon.png" class="deleteButton" alt="Delete" title="Delete Conclusion" height="20" width="20">
-				
-				<div ng-show="collapseOpenConclusion">
-
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-						
-					<hr>
-			
-					<div class="module">
-						<h2>Module 1: Explain</h2> 
-						<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					   
-
-						<h3>For example:</h3>
-							<div class="exampleList">
-								<ul>
-									<li><a>E.g. 1</a></li>
-									<li><a>E.g. 2</a></li>
-									<li><a>E.g. 3</a></li>
-								</ul>
-								<blockquote>"This is a quote element for the example"</blockquote>
-							</div>
-				
-							<h3>Try it yourself</h3>
-							<p id="encouragingMessage">Remember, it doesn't have to be perfect.</p>
-							<textarea class="textarea"></textarea>
-					</div>
-					
-				</div>
-
-			</div> -->
 
 			<!-- Button for add section, this will need to be ng-repeated -->
 				<div class="addSections" ng-show="hideShowAddButtons">
