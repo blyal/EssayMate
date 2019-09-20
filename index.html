@@ -54,16 +54,15 @@
 		</div>
 
 		<div id="essayProgressBar" ng-show="hideShowProgress">
-			<p class="progressHeader">Progress</p>
-			<hr>
+			<p id="progressHeader">YOUR PROGRESS</p>
 			<ul ng-repeat="section in sections">
 				<li><a class="progressBit" href="#section{{$index + 1}}">{{section.sectionHdr}}</a></li>
 			</ul>
+			<button id="exportButton" ng-click="genPDF()" ng-show="showExportPdf">Export draft to PDF</button>
 		</div>
 
 	<!-- Container -->
 		<div class="Container" ng-show="hideShowContainer">
-
 				
 			<div ng-repeat="section in sections"> <!--ng-repeats the sections which the user adds to the essay-->
 				<div id="section{{$index + 1}}"  ng-init="notCollapsed=true" ng-class="notCollapsed ? 'Component' : 'Component-collapse'">		
@@ -90,14 +89,13 @@
 								<blockquote>{{section.modules[dynamicModuleList[$index]].examples[dynamicExampleList[$index]]}}</blockquote>
 								</div>
 				
-								<h3>Try it yourself</h3>
-								<textarea class="textarea" ng-model="userText[$index]"></textarea>
+								<h3>Get started!</h3>
+								<textarea class="textarea" ng-model="userText[$index]" placeholder="Write your own essay points in here. They can all be saved by clicking the 'Export to pdf' button in your progress bar."></textarea>
 						</div>
 						<p id="encouragingMessage">{{section.sectionEncouragement}}</p>
 						
 				</div>
 			</div>
-			<button class="exportButton" ng-click="genPDF()" ng-show="showExportPdf">Export draft to PDF</button>
 
 
 			<div id="pdfTemplate" ng-show="showPDFTemplate">
@@ -114,13 +112,14 @@
 				</div><br><br>
 		</div>
 
-				<!-- Nav, hidden for now-->
+				<!-- Footer-->
 					<nav id="nav">
 						<ul class="icons">
-							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon brands fa-github"><span class="label" id="icon1">GitHub</span></a></li>
+							<p>Need help? Reach out to us at studytime@ietutoring.co.nz</p>
+							<li><a href="https://www.facebook.com/StudyTimeNewZealand/" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="https://www.youtube.com/user/studytimenz" class="icon brands fa-youtube"><span class="label">Twitter</span></a></li>
+							<li><a href="https://www.instagram.com/studytimenz/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="https://github.com/Bgsalty/EssayMate" class="icon brands fa-github"><span class="label" id="icon1">GitHub</span></a></li>
 						</ul>
 					</nav>
 
