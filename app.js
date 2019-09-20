@@ -15,7 +15,7 @@ phonecatApp.controller('componentController', function PhoneListController($scop
   
   $scope.hideShowAddButtons = true; //menu of initial buttons, get rid of this and accociated values
   $scope.hideShowContainer = true; //important main page
-  $scope.hideShowProgress = false; //progress bar
+  $scope.hideShowProgress = true; //progress bar to always show
   $scope.showExportPdf = false; //button for exporting PDF
   $scope.showPDFTemplate = false; //hides the PDF template section - the roundabout way for saving a PDF
 
