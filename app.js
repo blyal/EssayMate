@@ -18,6 +18,7 @@ phonecatApp.controller('componentController', function PhoneListController($scop
   $scope.hideShowProgress = true; //progress bar to always show
   $scope.showExportPdf = false; //button for exporting PDF
   $scope.showPDFTemplate = false; //hides the PDF template section - the roundabout way for saving a PDF
+  $scope.showFullEssay = false; //a view of the app that shows the fully-compiled essay thus far
 
 
   //Randomised encouraging message for each section - work in prog
@@ -178,6 +179,7 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
       $scope.userText.splice($index, 1);
       $scope.sections.splice($index, 1);
       $scope.dynamicModuleList.splice($index, 1);
+      $scope.dynamicExampleList.splice($index, 1);
       if (!$scope.sections.includes(introduction)) {
         $scope.collapsebtn = true;
       };
@@ -190,8 +192,28 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
     }
   }
 
-  //section for generating PDFs (clunky, roundabout way)
+  //code for displaying entire essay compiled thus far
   var x = $scope.userText;
+
+  //function to show a view of the compiled essay so far
+  $scope.compileEssay = function () {
+    $scope.activeButton = false;
+    $scope.hideShowContainer = false;
+    $scope.showFullEssay = true;
+    $scope.compiledEssay = x.join("\n");
+  }
+
+  $scope.showEssayBuilder = function () {
+    $scope.hideShowContainer = true;
+    $scope.showFullEssay = false;
+    $scope.activeButton = true;
+  }
+
+  //changes the style of the buttons which toggle between view of Essay Builder and Compiled Essay
+  $scope.activeButton = true;
+
+
+  //code for generating PDFs (clunky, roundabout way)
   $scope.genPDF = function () {
       var y = x.join('--nextsection--');
       var pdf = new jsPDF();
@@ -203,13 +225,13 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
       pdf.save('Essay Mate Essay');
   }
 
-  $scope.dynamicModuleList = [0, 0, 0, 0, 0] //set the size of sections list
+  $scope.dynamicModuleList = [0, 0, 0, 0, 0] //sets the size of sections list; each zero corresponds to the index of the module, and its index within the array corresponds to the section of the essay
 
   $scope.changeindex = function(sectionindex, moduleindex){
     $scope.dynamicModuleList[sectionindex] = moduleindex;
   }
 
-  $scope.dynamicExampleList = [0, 0, 0, 0]
+  $scope.dynamicExampleList = [0, 0, 0, 0] //sets the size of the example list. Ditto.
   $scope.changeindex2 = function(moduleindex, exampleindex){
     $scope.dynamicExampleList[moduleindex] = exampleindex;
   }
@@ -258,6 +280,7 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
     //Build Json object, add to ng-repeat list
     $scope.sections.splice(0, 0, introduction);
     $scope.dynamicModuleList.splice(0, 0, 0);
+    $scope.dynamicExampleList.splice(0, 0, 0);
     $scope.collapsebtn = !$scope.collapsebtn; //hide button for adding
     $scope.hideShowProgress = true; //ensures that the progress bar is showing
     $scope.showExportPdf = true; //ensures export PDF button is showing
@@ -265,16 +288,38 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
 
   $scope.addPoint = function(){
     var newPoint = JSON.parse(JSON.stringify(point));
-    $scope.sections.push(newPoint);
-    $scope.dynamicModuleList.push(0);
+    if ($scope.sections.includes(conclusion) && $scope.sections.includes(evaluation)) {
+      $scope.sections.splice($scope.sections.length - 2, 0, newPoint);
+      $scope.dynamicModuleList.splice($scope.dynamicModuleList - 2, 0, 0);
+      $scope.dynamicExampleList.splice($scope.dynamicExampleList - 2, 0, 0);
+    } else if ($scope.sections.includes(conclusion) || $scope.sections.includes(evaluation)) {
+      $scope.sections.splice($scope.sections.length - 1, 0, newPoint);
+      $scope.dynamicModuleList.splice($scope.dynamicModuleList - 1, 0, 0);
+      $scope.dynamicExampleList.splice($scope.dynamicExampleList - 1, 0, 0);
+    } else {
+      $scope.sections.push(newPoint);
+      $scope.dynamicModuleList.push(0);
+      $scope.dynamicExampleList.push(0);
+    }
     $scope.hideShowProgress = true;
     $scope.showExportPdf = true; //ensures export PDF button is showing
   }
 
   $scope.addCounterpoint = function(){
     var newCounterpoint = JSON.parse(JSON.stringify(counterpoint));
-    $scope.sections.push(newCounterpoint);
-    $scope.dynamicModuleList.push(0);
+    if ($scope.sections.includes(conclusion) && $scope.sections.includes(evaluation)) {
+      $scope.sections.splice($scope.sections.length - 2, 0, newCounterpoint);
+      $scope.dynamicModuleList.splice($scope.dynamicModuleList - 2, 0, 0);
+      $scope.dynamicExampleList.splice($scope.dynamicExampleList - 2, 0, 0);
+    } else if ($scope.sections.includes(conclusion) || $scope.sections.includes(evaluation)) {
+      $scope.sections.splice($scope.sections.length - 1, 0, newCounterpoint);
+      $scope.dynamicModuleList.splice($scope.dynamicModuleList - 1, 0, 0);
+      $scope.dynamicExampleList.splice($scope.dynamicExampleList - 1, 0, 0);
+    } else {
+      $scope.sections.push(newCounterpoint);
+      $scope.dynamicModuleList.push(0);
+      $scope.dynamicExampleList.push(0);
+    }
     $scope.hideShowProgress = true;
     $scope.showExportPdf = true; //ensures export PDF button is showing
   }
@@ -282,10 +327,13 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
   $scope.addEvaluation = function(){
     if ($scope.sections.includes(conclusion)) {
       $scope.sections.splice($scope.sections.length - 1, 0, evaluation);
+      $scope.dynamicModuleList.splice($scope.dynamicModuleList - 1, 0, 0);
+      $scope.dynamicExampleList.splice($scope.dynamicExampleList - 1, 0, 0);
     } else {    
     $scope.sections.push(evaluation);
-    };
     $scope.dynamicModuleList.push(0);
+    $scope.dynamicExampleList.push(0);
+    };
     $scope.collapsebtnE = !$scope.collapsebtnE; //hide button for adding
     $scope.hideShowProgress = true;
     $scope.showExportPdf = true; //ensures export PDF button is showing
@@ -294,11 +342,13 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
   $scope.addConclusion = function(){
     if($scope.sections.length === 0){
       $scope.sections.push(conclusion);
+      $scope.dynamicModuleList.push(0);
+      $scope.dynamicExampleList.push(0);
     }
     else{
       $scope.sections.splice($scope.sections.length, 0, conclusion);
+      $scope.dynamicModuleList.push(0);
     }
-    $scope.dynamicModuleList.push(0);
     $scope.collapsebtnC = !$scope.collapsebtnC; //hide button for adding
     $scope.hideShowProgress = true;
     $scope.showExportPdf = true; //ensures export PDF button is showing
@@ -307,6 +357,8 @@ conclusion.encouragingMsg = encouragingMessages[Math.floor(Math.random() * encou
   $scope.beginEssay = function(){
     $scope.hideShowWelcome = !$scope.hideShowWelcome;
     $scope.hideShowContainer = !$scope.hideShowContainer;
+    $scope.hideShowProgress = !$scope.hideShowProgress;
+    $scope.showFullEssay = !$scope.showFullEssay;
   }
 
 
