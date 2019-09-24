@@ -10,6 +10,25 @@ LICENCE
 
 
 /* miscellaneous CSS */
+blockquote {
+	margin: 0;
+	padding: 1.5em;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* pre - a tag to replace normal p tag in cases where JavaScript strings with line breaks are displayed as HTML */
+/* this CSS ensures that the pre tag wraps the text properly */
+pre {
+	white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
+	white-space: -pre-wrap; /* Opera */
+	white-space: -o-pre-wrap; /* Opera */
+	white-space: pre-wrap; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+	word-wrap: break-word; /* IE 5.5+ */
+}
+
 #preamble {
 	font-style: normal;
 }
@@ -23,6 +42,7 @@ LICENCE
 	text-align: center;
 	margin-left: 20%;
 	margin-right: 20%;
+	top: 125px;
   }
   /* Style for collapsing button */
 
@@ -41,7 +61,7 @@ LICENCE
 	  position: relative;
 	  padding: 18px;
 	  border-radius: 10px;
-	  width: 100%;
+	  width: 100%
 	}
 
 	.addSections {
@@ -57,7 +77,7 @@ LICENCE
 	.Component h2 {
 		font-size: 2em;
 	}
-
+;
 	/*Title for write yourself*/
 	.Component h3{
 	  text-align: left;
@@ -128,7 +148,7 @@ LICENCE
 		border: none;
 		/* border: solid black 0.0625em; */
 		/* background-color: rgba(23, 191, 239, 0.3); */
-		background-color: #fdf6e7;
+		background-color: #fcebcb;
 		cursor: pointer;
 		padding-top: 1em;
 		padding-bottom: 1em;
@@ -155,13 +175,17 @@ LICENCE
 	}
   
 	.Component textarea{
-	  padding-bottom: 50px;
+	  padding: 0.75em;
 	  width: 80%;
 	  display: inline-block;
-	  resize: none;
 	  outline-color: #f2ad30;
 	  box-shadow: 0 0 5px rgb(236, 236, 236);
+	  font-size: 1rem;
 	  height: 100px;
+
+		/* Stops the textarea from being expanded using the bottom right corner
+		resize: none;
+		*/
 	}
 
 	.Component textarea:hover {
@@ -173,8 +197,7 @@ LICENCE
 	}
 
 	.Component h3, .Component h4 {
-		margin-top: 1em;
-		margin-bottom: 0;
+		margin: 1em;
 	}
   
 	.exampleList{
@@ -182,7 +205,7 @@ LICENCE
 	  border-radius: 10px;
 	  box-shadow: 0 0 5px rgb(236, 236, 236);
 	  width: 80%;
-	  background-color: #fdf6e7;
+	  background-color: #fdf3e1;
 	  text-align: left;
 	  display: inline-block;
 	  margin-bottom: 1em;
@@ -220,12 +243,34 @@ LICENCE
 		color: black;
 	}
 
-	.exportButton {
-		margin: 2em auto;
-		box-shadow: none;
-		padding: 2em;
-		cursor: pointer;
+	#exportButton {
+		display: block;
+		margin-right: auto;
+		margin-left: auto;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		padding: 0.5em;
 		font-family: "Merriweather", Georgia, serif;
+		background-color: white;
+		border: 1px solid;
+		cursor: pointer;
+	}
+
+	#fullEssayView {
+		margin-left: 20%;
+		margin-right: 20%;
+		margin-top: 3em;
+		/* margin-bottom: 10em; */
+		padding: 1em;
+		box-shadow: grey;
+		border: grey 0.25em solid;
+		font-family: "Times New Roman", sans-serif;
+		overflow: auto;
+		max-height: 20em;
+	}
+
+	#fullEssayView pre {
+		text-align: left;
 	}
    
   
@@ -262,17 +307,22 @@ LICENCE
 	top: 4em;
 	opacity: 0;
 }
-  
+
 #essayProgressBar {
+	display: inline-block;
+	/* height: 100%; */
+	vertical-align: top;
 	z-index: 10;
 	position: sticky;
-	top: 0;
-	text-transform: uppercase;
+	top: 125px;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
 	width: 15%;
 	border: 0.25em solid #f2ad30;
 	overflow: hidden;
 	border-radius: 5%;
 	margin-top: 1em;
+	margin-left: 1%;
+	float: left;
 }
 
 #essayProgressBar ul {
@@ -280,7 +330,10 @@ LICENCE
 	cursor: pointer;
 	padding: 0;
 	margin: 0;
-	background-color: lightgoldenrodyellow;
+	background-color: #fdf3e1;
+	font-family: "Merriweather", Georgia, serif;
+	font: 400 13.3333px;
+	box-shadow: none;
 }
 
 #essayProgressBar li {
@@ -288,32 +341,75 @@ LICENCE
 }
 
 #essayProgressBar li:hover {
-	border: solid 0.0625em black;
+	/*border: solid 0.0625em black;*/
 }
 
 #essayProgressBar p {
 	text-align: center;
-	letter-spacing: 0.25em;
-	overflow: hidden;
-	margin-right: -1em;
-	margin-bottom: 0;
-	color: #f2ad30;
 }
 
-#essayProgressBar hr {
-	margin-top: 0;
+#essayProgressBar a{
+	padding: 125 px;
+}
+
+#essayProgressBar a:hover {
+	color: #18bfef;
+}
+
+#progressHeader {
+	font-size: 1.25em;
+	font-weight: 900;
+	letter-spacing: 0.075em;
+	overflow: hidden;
+	margin-right: -0.5em;
 	margin-bottom: 0;
-	width: 80%;
+	color: #ffffff;
+	background-color: #f2ad30;
 }
 
 .progressBit {
 	color: black;
-	font-weight: bold;
+	font-weight: normal;
+	padding-right: 1000px;
 }
 
-.progressHeader {
-	color: #30A1C9;
+#viewContainer {
+	display: inline-block;
+	margin-top: 2em;
+	margin-right: 16%;
 }
+
+/* #borderDiv {
+	border: 0.25em solid black;
+	border-radius: 5%;
+} */
+
+.compileButton, .compileButton2 {
+	border-radius: 5%;
+	cursor: pointer;
+	color: #ffffff;
+	padding: 1em;
+	overflow: hidden;
+	margin: 0;
+}
+
+.compileButton {
+	background-color: #f2ad30;
+	font-weight: 600;
+}
+
+.compileButton2 {
+	width: 175px;
+	box-shadow: none;
+	border: none;
+	color: #000000;
+	background-color: #fcebcb;
+	cursor: pointer;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	font-family: "Merriweather", Georgia, serif;
+}
+
 
 .sectionTitle {
 	cursor: pointer;
@@ -390,7 +486,7 @@ LICENCE
 /* Default CSS below */
 
 html, body, div, span, applet, object,
-iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+iframe, h1, h2, h3, h4, h5, h6, p,
 pre, a, abbr, acronym, address, big, cite,
 code, del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b,
@@ -412,10 +508,17 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
 
+/* HTML needs to be 100% height to retain nav at bottom */
+html {
+	height: 100%;
+}
+
+/* this code is also necessary to retain nav at the bottom, as is the wrapper div */
 body {
 	line-height: 1;
 	height: 100%;
 	margin: 0;
+	text-align: center;
 }
 
 ol, ul {
@@ -863,44 +966,11 @@ body {
 /* Wrapper */
 
 	#wrapper {
-		-moz-transition: opacity 0.5s ease;
-		-webkit-transition: opacity 0.5s ease;
-		-ms-transition: opacity 0.5s ease;
-		transition: opacity 0.5s ease;
-		position: relative;
-		z-index: 1;
-		overflow: hidden;
-		margin-bottom: 0;
+		min-height: 100%;
+		margin: 0 auto -7em;
+		height: 100%;
+		height: auto !important;
 	}
-
-		#wrapper > .bg {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: #212931;
-			background-color: rgb(242, 173, 48);
-			background-size: auto,								auto,														100% auto;
-			background-position: center,								center,														top center;
-			background-repeat: repeat,								no-repeat,													no-repeat;
-			background-attachment: scroll,								scroll,														scroll;
-			z-index: -1;
-		}
-
-			#wrapper > .bg.fixed {
-				position: fixed;
-				width: 100vw;
-				height: 100vh;
-			}
-
-		@media screen and (orientation: portrait) {
-
-			#wrapper > .bg {
-				background-size: auto,								auto,														auto 175%;
-			}
-
-		}
 
 /* Intro */
 
@@ -1016,9 +1086,10 @@ body {
 		-webkit-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
-		padding-top: 2rem;
-		padding-bottom: 2rem;
-		position: relative;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		top: 0px;
+		position: sticky;
 		text-align: center;
 	}
 
@@ -1086,16 +1157,17 @@ body {
 		-ms-transition: -ms-transform 1s ease, opacity 1s ease;
 		transition: transform 1s ease, opacity 1s ease; */
 		background: rgb(157, 161, 157);
-		line-height: 4rem;
+		line-height: 3.5rem;
 		margin: -4rem auto 0 auto;
 		overflow: hidden;
 		position: relative;
 		z-index: 2;
 		text-align: center;
+		font-family: "Source Sans Pro", Helvetica, sans-serif;
 		border-top: solid white;
 		bottom: 0;
-		position: relative;
 		width: 100%;
+		height: 7em;
 	}
 
 		#nav ul.icons {
@@ -1178,170 +1250,3 @@ body {
 			}
 
 		}
-
-/* Nav Panel */
-
-	#navPanelToggle {
-		text-decoration: none;
-		-moz-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		display: none;
-		position: fixed;
-		top: 0.75rem;
-		right: 0.75rem;
-		border: 0;
-		color: #ffffff;
-		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-size: 0.9rem;
-		font-weight: 900;
-		letter-spacing: 0.075em;
-		padding: 0.375rem 1.25rem;
-		text-transform: uppercase;
-		z-index: 10001;
-	}
-
-		#navPanelToggle:before {
-			-moz-osx-font-smoothing: grayscale;
-			-webkit-font-smoothing: antialiased;
-			display: inline-block;
-			font-style: normal;
-			font-variant: normal;
-			text-rendering: auto;
-			line-height: 1;
-			text-transform: none !important;
-			font-family: 'Font Awesome 5 Free';
-			font-weight: 900;
-		}
-
-		#navPanelToggle:before {
-			content: '\f0c9';
-			margin-right: 0.5rem;
-		}
-
-
-		@media screen and (max-width: 980px) {
-
-			#navPanelToggle {
-				display: block;
-			}
-
-		}
-
-		@media screen and (max-width: 736px) {
-
-			#navPanelToggle {
-				font-size: 0.8rem;
-				padding: 0.25rem 1rem;
-			}
-
-		}
-
-	#navPanel {
-		-moz-transform: translateX(20rem);
-		-webkit-transform: translateX(20rem);
-		-ms-transform: translateX(20rem);
-		transform: translateX(20rem);
-		-moz-transition: -moz-transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
-		-webkit-transition: -webkit-transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
-		-ms-transition: -ms-transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
-		transition: transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
-		display: none;
-		-webkit-overflow-scrolling: touch;
-		background: #ffffff;
-		box-shadow: none;
-		color: #212931;
-		height: 100%;
-		max-width: 80%;
-		overflow-y: auto;
-		padding: 3rem 2rem;
-		position: fixed;
-		right: 0;
-		top: 0;
-		visibility: hidden;
-		width: 20rem;
-		z-index: 10002;
-	}
-
-		#navPanel .close {
-			text-decoration: none;
-			-moz-transition: color 0.2s ease-in-out;
-			-webkit-transition: color 0.2s ease-in-out;
-			-ms-transition: color 0.2s ease-in-out;
-			transition: color 0.2s ease-in-out;
-			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-			border: 0;
-			color: #909498;
-			cursor: pointer;
-			display: block;
-			height: 3.25rem;
-			line-height: 3.25rem;
-			padding-right: 1.25rem;
-			position: absolute;
-			right: 0;
-			text-align: right;
-			top: 0;
-			vertical-align: middle;
-			width: 7rem;
-		}
-
-			#navPanel .close:before {
-				-moz-osx-font-smoothing: grayscale;
-				-webkit-font-smoothing: antialiased;
-				display: inline-block;
-				font-style: normal;
-				font-variant: normal;
-				text-rendering: auto;
-				line-height: 1;
-				text-transform: none !important;
-				font-family: 'Font Awesome 5 Free';
-				font-weight: 900;
-			}
-
-			#navPanel .close:before {
-				content: '\f00d';
-				font-size: 1.25rem;
-			}
-
-			@media screen and (max-width: 736px) {
-
-				#navPanel .close {
-					height: 4rem;
-					line-height: 4rem;
-				}
-
-			}
-
-		@media screen and (max-width: 980px) {
-
-			#navPanel {
-				display: block;
-			}
-
-		}
-
-		@media screen and (max-width: 736px) {
-
-			#navPanel {
-				padding: 2.5rem 1.75rem;
-			}
-
-		}
-
-	@media screen and (max-width: 980px) {
-
-		body.is-navPanel-visible #wrapper {
-			opacity: 0.5;
-		}
-
-		body.is-navPanel-visible #navPanel {
-			-moz-transform: translateX(0);
-			-webkit-transform: translateX(0);
-			-ms-transform: translateX(0);
-			transform: translateX(0);
-			box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, 0.2);
-			visibility: visible;
-		}
-
-	}
