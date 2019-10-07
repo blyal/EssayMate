@@ -14,115 +14,128 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.js"></script>
 		<script src="app.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 	</head>
 
 	<body class="is-preload" ng-app="ieapp" ng-controller="componentController">
+		<div id="wrapper">
+			<!-- Header -->
+				<header id="header">
+					<a class="logo">StudyTime</a>
+				</header>
 
-	<!-- Header -->
-		<header id="header">
-			<a class="logo">StudyTime</a>
-		</header>
+			<!-- Intro -->
+				<div id="intro" ng-show="hideShowEssayMate">
+					<h1>This is<br/>
+						Essay Mate</h1>
+					<p>Your Helpful Essay-Planning Tool, by StudyTime</p><br><br>
+					<ul class="actions">
+						<li><a class="button icon solid solo scrolly" ng-click="openWelcomePage();">Continue</a></li>
+					</ul>
+				</div>
 
-	<!-- Intro -->
-		<div id="intro" ng-show="hideShowEssayMate">
-			<h1>This is<br/>
-				Essay Mate</h1>
-			<p>Your Helpful Essay-Planning Tool, by StudyTime</p><br><br>
-			<ul class="actions">
-				<li><a class="button icon solid solo scrolly" ng-click="openWelcomePage();">Continue</a></li>
-			</ul>
-		</div>
+			<!-- Main -->
+				<div id="main" ng-show="hideShowWelcome">
 
-	<!-- Main -->
-		<div id="main" ng-show="hideShowWelcome">
+				<!-- Welcome Page -->
+					<h2>Have to write an Essay?</h2>
+					<p id="preamble">Having to write an essay can be tough. 
+									Very often, students find themselves in the position of having to write an essay from scratch,
+									 without being taught the proper know-how.</p>
+					<p id="preamble">Here at StudyTime, we can help. Essay Mate is a tool you can use to guide you through
+									 the toughest part of writing an essay - actually starting it. Very soon, you'll have a first draft down with all 
+									 your key points, organised in standard essay structure. The days of staring at a blank page are over!
+						</p>
+					<p>Let's build an essay.</p>
+					<ul class="actions special">
+						<li><a ng-click="beginEssay()" class="button large" id="black-button">Begin New Essay</a></li>
+					</ul>
+					<br><br>
+				</div>
 
-		<!-- Welcome Page -->
-				<h2>Have to write an Essay?</h2>
-				<p id="preamble">Having to write an essay can be tough. 
-								Very often, students find themselves in the position of having to write an essay from scratch,
-								 without being taught the proper know-how.</p>
-				<p id="preamble">Here at StudyTime, we can help. Essay Mate is a tool you can use to guide you through
-								 the toughest part of writing an essay - actually starting it. Very soon, you'll have a first draft down with all 
-								 your key points, organised in standard essay structure. The days of staring at a blank page are over!
-				</p>
-				<p>Let's build an essay.</p>
-			<ul class="actions special">
-				<li><a ng-click="beginEssay()" class="button large" id="black-button">Begin New Essay</a></li>
-			</ul>
-			<br><br>
-		</div>
-
-		<div id="essayProgressBar" ng-show="hideShowProgress">
-			<p id="progressHeader">YOUR PROGRESS</p>
-			<ul ng-repeat="section in sections">
-				<li><a class="progressBit" href="#section{{$index + 1}}">{{section.sectionHdr}}</a></li>
-			</ul>
-			<button id="exportButton" ng-click="genPDF()" ng-show="showExportPdf">Export draft to PDF</button>
-		</div>
-
-	<!-- Container -->
-		<div class="Container" ng-show="hideShowContainer">
+				<div id="essayProgressBar" ng-show="hideShowProgress">
+					<p id="progressHeader">YOUR PROGRESS</p>
+					<ul id="progSections">
+						<li ng-repeat="section in sections"><a class="progressBit" href="#section{{$index + 1}}">{{section.sectionHdr}}</a></li>
+					</ul>
+				</div>
 				
-			<div ng-repeat="section in sections"> <!--ng-repeats the sections which the user adds to the essay-->
-				<div id="section{{$index + 1}}"  ng-init="notCollapsed=true" ng-class="notCollapsed ? 'Component' : 'Component-collapse'">		
-					<label><h1 class="sectionTitle" ng-click="collapseSection()">{{section.sectionHdr}} <input type="checkbox" id="collapseCheckbox" ng-model="notCollapsed" ng-checked="true"></h1></label>
-					<img src="./comp-close-icon.png" class="deleteButton" alt="Delete" title="Delete {{section.header}}" height="20" width="20" ng-click="deleteSection($index)">
-						<p id="sectionDescription">{{section.sectionDesc}}</p>	
-						<hr>
-						<div class="modulecontainer">
-							<ul class="module-list">	
-								<li ng-repeat="module in section.modules" class="module-bar">
-										<button class="module-button" ng-click="changeindex($parent.$index, $index)">{{module.moduleHdr}}</button>	
-								</li>
-							</ul>
-							<h2>{{section.modules[dynamicModuleList[$index]].moduleHdr}}</h2> <!--currentModule is js $scope-->
-								<p>{{section.modules[dynamicModuleList[$index]].moduleDesc}}</p>
-					   
-							<!--Example Div-->
-								<div class="exampleList">
-									<ul>
-										<li ng-repeat="example in section.modules[dynamicModuleList[$index]].examples">
-												<button class="exampleButton" ng-click="changeindex2($parent.$index, $index)">Example {{$index+1}}</button>
+				<div id="viewContainer">
+					<div id="borderDiv">
+						<label ng-class="activeButton ? 'compileButton' : 'compileButton2'" ng-click="showEssayBuilder()">Essay Mate</label><!--
+						--><label ng-class="activeButton ? 'compileButton2' : 'compileButton'" ng-click="compileEssay()">View Draft</label>
+					</div>
+				</div>
+
+				<div id="wrapper2" ng-show="showFullEssay">
+					<div id="fullEssayView" ng-model="thing2">
+						<ul>
+							<li ng-repeat="section in sections">{{section.sectionHdr}}<pre>{{userText[$index]}}</pre></li>
+						</ul>
+					</div>
+					<button ng-click="copyEssay()" id="exportButton">Copy to clipboard</button>
+					<br><br><br><br><br>
+					<textarea id="getEssay" rows="1" cols="30">{{compiledEssay}}
+					</textarea>
+				</div>
+
+			<!-- Container -->
+				<div class="Container" ng-show="hideShowContainer">
+				
+					<div style="padding-top: 6em; margin-top: -6em;" id="section{{$index + 1}}" class="sections" ng-repeat="section in sections"> <!--ng-repeats the sections which the user adds to the essay-->
+						<div ng-init="notCollapsed=true" ng-class="notCollapsed ? 'Component' : 'Component-collapse'">		
+							<label><h1 class="sectionTitle" ng-click="collapseSection()">{{section.sectionHdr}}<input type="checkbox" id="collapseCheckbox" ng-model="notCollapsed" ng-checked="true"></h1></label>
+							<img src="./comp-close-icon.png" class="deleteButton" alt="Delete" title="Delete {{section.header}}" height="20" width="20" ng-click="deleteSection($index)">
+								<p id="sectionDescription">{{section.sectionDesc}}</p>	
+								<hr>
+								<div class="modulecontainer">
+									<ul class="module-list">	
+										<li ng-repeat="module in section.modules" class="module-bar">
+											<button class="module-button" ng-click="changeindex($parent.$index, $index)">{{module.moduleHdr}}</button>	
 										</li>
 									</ul>
-								<blockquote>{{section.modules[dynamicModuleList[$index]].examples[dynamicExampleList[$index]]}}</blockquote>
-								</div>
+									<h2>{{section.modules[dynamicModuleList[$index]].moduleHdr}}</h2> <!--currentModule is js $scope-->
+									<p>{{section.modules[dynamicModuleList[$index]].moduleDesc}}</p>
+					   
+									<!--Example Div-->
+										<div class="exampleList">
+											<ul>
+												<li ng-repeat="example in section.modules[dynamicModuleList[$index]].examples">
+													<button class="exampleButton" ng-click="changeindex2($parent.$index, $index)">Example {{$index+1}}</button>
+												</li>
+											</ul>
+											<blockquote>{{section.modules[dynamicModuleList[$index]].examples[dynamicExampleList[$index]]}}</blockquote>
+										</div>
 				
-								<h3>Get started!</h3>
-								<textarea class="textarea" ng-model="userText[$index]" placeholder="Write your own essay points in here. They can all be saved by clicking the 'Export to pdf' button in your progress bar."></textarea>
-						</div>
-						<p id="encouragingMessage">{{section.sectionEncouragement}}</p>
+										<h3>Get started!</h3>
+										<input type="text" placeholder="Name this {{section.sectionHdr}}" ng-model="nameThisSection[$index]" class="changeNameBox" ng-hide="section.sectionHdr == 'Introduction' || section.sectionHdr == 'Evaluation' || section.sectionHdr == 'Conclusion'">
+										<button style="display: inline;" id="exportButton" ng-click="changeSectionName($index, nameThisSection[$index])" ng-hide="section.sectionHdr == 'Introduction' || section.sectionHdr == 'Evaluation' || section.sectionHdr == 'Conclusion'">Change Name</button>
+										<textarea class="textarea" ng-model="userText[$index]" placeholder="Write your own essay points in here. They can all be saved by clicking the 'Copy to Clipboard' button in the 'View Draft' view."></textarea>
+								</div>
+								<p id="encouragingMessage">{{section.sectionEncouragement}}</p>
 						
+						</div>
+					</div>
+
+					<!-- Button for add section, this will need to be ng-repeated -->
+						<div class="addSections" ng-show="hideShowAddButtons">
+							<button class="Collapsible" ng-click="addIntroduction()" ng-show="collapsebtn">Add Introduction</button>
+							<button class="Collapsible" ng-click="addPoint()">Add Point</button>
+							<button class="Collapsible" ng-click="addCounterpoint()">Add Counterpoint</button>
+							<button class="Collapsible" ng-click="addEvaluation()" ng-show="collapsebtnE">Add Evaluation</button>
+							<button class="Collapsible" ng-click="addConclusion()" ng-show="collapsebtnC">Add Conclusion</button>
+						</div><br><br>
 				</div>
-			</div>
-
-
-			<div id="pdfTemplate" ng-show="showPDFTemplate">
-				<div id="pdfText"></div>
-			</div>
-
-			<!-- Button for add section, this will need to be ng-repeated -->
-				<div class="addSections" ng-show="hideShowAddButtons">
-					<button class="Collapsible" ng-click="addIntroduction()" ng-show="collapsebtn">Add Introduction</button>
-					<button class="Collapsible" ng-click="addPoint()">Add Point</button>
-					<button class="Collapsible" ng-click="addCounterpoint()">Add Counterpoint</button>
-					<button class="Collapsible" ng-click="addEvaluation()" ng-show="collapsebtnE">Add Evaluation</button>
-					<button class="Collapsible" ng-click="addConclusion()" ng-show="collapsebtnC">Add Conclusion</button>
-				</div><br><br>
-		</div>
-
-				<!-- Footer-->
-					<nav id="nav">
-						<ul class="icons">
-							<p>Need help? Reach out to us at studytime@ietutoring.co.nz</p>
-							<li><a href="https://www.facebook.com/StudyTimeNewZealand/" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-							<li><a href="https://www.youtube.com/user/studytimenz" class="icon brands fa-youtube"><span class="label">Twitter</span></a></li>
-							<li><a href="https://www.instagram.com/studytimenz/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="https://github.com/Bgsalty/EssayMate" class="icon brands fa-github"><span class="label" id="icon1">GitHub</span></a></li>
-						</ul>
-					</nav>
-
+			</div> 	<!--end of wrapper -->
+					<!-- Footer-->
+			<nav id="nav">
+				<ul class="icons">
+					<p>Need help? Reach out to us at studytime@ietutoring.co.nz</p>
+					<li><a href="https://www.facebook.com/StudyTimeNewZealand/" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+					<li><a href="https://www.youtube.com/user/studytimenz" class="icon brands fa-youtube"><span class="label">Twitter</span></a></li>
+					<li><a href="https://www.instagram.com/studytimenz/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+					<li><a href="https://github.com/Bgsalty/EssayMate" class="icon brands fa-github"><span class="label" id="icon1">GitHub</span></a></li>
+				</ul>
+			</nav>
 
 
 		<!-- Extra Scripts -->
